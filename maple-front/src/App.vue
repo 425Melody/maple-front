@@ -51,13 +51,13 @@ import { ref } from 'vue';  // 引入 ref
 </script>
 
 <style scoped>
-#logo{
+#logo {
   width: 50px;
   /* position: absolute;
   left: 20px; */
 }
 
-#main{
+#main {
   padding: 0px;
 }
 </style>

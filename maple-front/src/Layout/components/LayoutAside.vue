@@ -17,9 +17,9 @@
         <div>
           <el-menu-item index="3" @click="() => handleOpen('3')">
             <div class="demo-type">
-                <el-avatar src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" id="icon">
+              <el-avatar :src="icon" id="icon">
 
-                </el-avatar>
+              </el-avatar>
             </div>
             <span id="span">我</span>
           </el-menu-item>
@@ -42,8 +42,29 @@ import {
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import emitter from '../../utils/emitter'
+import { onMounted } from 'vue';  //钩子函数
+import getUserIcon from '../../api/getUserIcon'
+import { ElMessage } from 'element-plus';
+
 
 const router = useRouter();  //使用路由
+
+//头像
+let icon = ref('')
+
+//调用钩子函数
+onMounted(async () => {
+  // let response = getUserIcon()
+  //  if()
+  let response = await getUserIcon()
+  if (response.data.code == 200) {
+    icon.value = response.data.data
+    ElMessage.success(response.data.msg)
+  } else {
+    ElMessage.error(response.data.msg)
+  }
+})
+
 
 
 
@@ -61,9 +82,9 @@ const handleOpen = (key: string) => {
     router.push('/publish');
   }
 
-  if(key == "3"){
+  if (key == "3") {
     //触发事件
-  emitter.emit('show-login',true)
+    emitter.emit('show-login', true)
   }
 }
 
@@ -79,11 +100,12 @@ const handleClose = (key: string, keyPath: string[]) => {
   width: 30px;
   height: auto;
   position: relative;
-  top: -12px;  /* 负值表示向上移动 */
+  top: -12px;
+  /* 负值表示向上移动 */
   left: 0%;
 }
 
-#span{
+#span {
   position: relative;
   left: 5%;
 }
